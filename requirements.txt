@@ -1,0 +1,15 @@
+# Fichier requirements.txt
+fastapi
+sqlalchemy
+pymysql
+passlib[bcrypt]
+python-dotenv
+jwt
+unicorn
+python-multipart
+bcrypt 
+passlib
+PyJWT
+pydantic[email]
+
+

@@ -1,0 +1,8 @@
+# Force LF for all JavaScript files
+*.js text eol=lf
+
+# Force LF for all JSON files
+*.json text eol=lf
+
+# Ignore node_modules for line-ending normalization (optional)
+node_modules/* text eol=lf
