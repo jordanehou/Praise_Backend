@@ -11,5 +11,6 @@ bcrypt
 passlib
 PyJWT
 pydantic[email]
+fastapi[all] sqlalchemy pillow
 
 

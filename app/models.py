@@ -10,9 +10,11 @@
 
 
 
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float, LargeBinary
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from .database import Base
+from datetime import datetime
 
 class User(Base):
     __tablename__ = "users"
@@ -23,6 +25,9 @@ class User(Base):
     role = Column(String, default="user")
     
     categories = relationship("Category", back_populates="owner")
+    # Relation avec Usage
+    usages = relationship("Usage", back_populates="user")
+
 
 class Category(Base):
     __tablename__ = "categories"
@@ -42,18 +47,45 @@ class Product(Base):
     # delivery_id = Column(Integer, ForeignKey("deliveries.id"))  # 🚀 Ajout du champ supplier_id
     quantity = Column(Integer, default=0)  # 🚀 Ajout du champ quantity
     unit_price = Column(Float, default=0.0)  # 🚀 Ajout du champ unit_price
+    # image = Column(String)  # Changez cela en String pour stocker l'image en Base64
+    createdAt = Column(DateTime(timezone=True), server_default=func.now())  # Date de création
+    updatedAt = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())  # Date de mise à jour
     
     
     category = relationship("Category", back_populates="products")
     deliveries = relationship("Delivery", back_populates="product")
     usages = relationship("Usage", back_populates="product")
+    
+
+# class Delivery(Base):
+#     __tablename__ = "deliveries"
+#     id = Column(Integer, primary_key=True, index=True)
+#     product_id = Column(Integer, ForeignKey("products.id"))
+#     structure_name = Column(String)
+#     delivery_date = Column(DateTime)
+#     quantity = Column(Integer)
+#     amount_paid = Column(Float)
+    
+#     product = relationship("Product", back_populates="deliveries")
+
+# class Usage(Base):
+#     __tablename__ = "usages"
+#     id = Column(Integer, primary_key=True, index=True)
+#     product_id = Column(Integer, ForeignKey("products.id"))
+#     user_id = Column(Integer, ForeignKey("users.id"))
+#     usage_date = Column(DateTime)
+#     purpose = Column(String)
+#     quantity_used = Column(Integer)
+    
+#     product = relationship("Product", back_populates="usages")
+#     user = relationship("User")
 
 class Delivery(Base):
     __tablename__ = "deliveries"
     id = Column(Integer, primary_key=True, index=True)
     product_id = Column(Integer, ForeignKey("products.id"))
     structure_name = Column(String)
-    delivery_date = Column(DateTime)
+    delivery_date = Column(DateTime, default=datetime.utcnow, nullable=False)  # Auto-rempli
     quantity = Column(Integer)
     amount_paid = Column(Float)
     
@@ -64,9 +96,9 @@ class Usage(Base):
     id = Column(Integer, primary_key=True, index=True)
     product_id = Column(Integer, ForeignKey("products.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
-    usage_date = Column(DateTime)
+    usage_date = Column(DateTime, default=datetime.utcnow, nullable=False)  # Auto-rempli
     purpose = Column(String)
     quantity_used = Column(Integer)
     
     product = relationship("Product", back_populates="usages")
-    user = relationship("User")
+    user = relationship("User", back_populates="usages")

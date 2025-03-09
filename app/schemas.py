@@ -74,7 +74,7 @@ class ProductBase(BaseModel):
 class DeliveryCreate(BaseModel):
     product_id: int
     structure_name: str
-    delivery_date: str  # Format: YYYY-MM-DD
+    delivery_date: datetime  # Format: YYYY-MM-DD
     quantity: int
     amount_paid: float
 
@@ -103,6 +103,9 @@ class ProductCreate(BaseModel):
     category_id: int
     quantity: int
     unit_price: float
+    #image: Optional[bytes] = None  # Champ pour l'image en binaire
+    # image: Optional[str] = None
+    
 
 
 class ProductUpdate(BaseModel):
@@ -111,11 +114,17 @@ class ProductUpdate(BaseModel):
     quantity: Optional[int] = None
     unit_price: Optional[float] = None
     description: Optional[str] = None
+    # image: Optional[str] = None  # Image peut aussi être optionnelle
 
 
 class ProductResponse(ProductCreate):
     id: int
     deliveries: List[DeliveryResponse] = []  # Ajouter les livraisons associées
+    description: Optional[str] = None
+    price: int
+    createdAt: datetime
+    updatedAt: datetime
+
 
     class Config:
         orm_mode = True
@@ -126,18 +135,19 @@ class UsageCreate(BaseModel):
     product_id: int
     user_id: int
     quantity_used: int
-    usage_reason: str
-    usage_date: str  # Format: YYYY-MM-DD
+    usage_date: datetime  # Format: YYYY-MM-DD
+    purpose: str
 
 class UsageUpdate(BaseModel):
     product_id: Optional[int] = None
     user_id: Optional[int] = None
     quantity_used: Optional[int] = None
-    usage_reason: Optional[str] = None
-    usage_date: Optional[str] = None
+    usage_date: Optional[datetime] = None
+    purpose: Optional[str] = None
 
 class UsageResponse(UsageCreate):
     id: int
 
     class Config:
         orm_mode = True
+        from_attributes = True

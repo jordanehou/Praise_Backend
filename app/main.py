@@ -119,7 +119,8 @@
 from fastapi import FastAPI
 from .database import engine, SessionLocal
 from .models import Base
-from .routes import users, categories, products, deliveries, usages
+from .routes import users, categories, products, deliveries, usages, images
+#from .routes.image import router as image_router
 from fastapi.middleware.cors import CORSMiddleware
 
 # Création des tables dans la base de données
@@ -144,3 +145,5 @@ app.include_router(categories.router, prefix="/categories", tags=["Categories"])
 app.include_router(products.router, prefix="/products", tags=["Products"])
 app.include_router(deliveries.router, prefix="/deliveries", tags=["Deliveries"])
 app.include_router(usages.router, prefix="/usages", tags=["Usages"])
+# Inclure les routes d'images
+app.include_router(images.router)
