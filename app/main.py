@@ -122,6 +122,7 @@ from .models import Base
 from .routes import users, categories, products, deliveries, usages, images
 #from .routes.image import router as image_router
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 # Création des tables dans la base de données
 Base.metadata.create_all(bind=engine)
@@ -139,6 +140,8 @@ app.add_middleware(
 )
 
 
+# Servir les fichiers statiques
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 # Inclusion des routes
 app.include_router(users.router, prefix="/users", tags=["Users"])
 app.include_router(categories.router, prefix="/categories", tags=["Categories"])

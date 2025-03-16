@@ -12,6 +12,7 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import List, Optional
+from fastapi import UploadFile
 
 class UserBase(BaseModel):
     username: str
@@ -114,6 +115,7 @@ class ProductUpdate(BaseModel):
     quantity: Optional[int] = None
     unit_price: Optional[float] = None
     description: Optional[str] = None
+    image: Optional[UploadFile] = None
     # image: Optional[str] = None  # Image peut aussi être optionnelle
 
 
