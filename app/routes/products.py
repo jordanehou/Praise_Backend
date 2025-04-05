@@ -229,6 +229,20 @@ def list_products(db: Session = Depends(get_db)):
     }, status_code=200)
 
 
+@router.get("/listall", response_model=list[ProductResponse])
+def list_products_in(db: Session = Depends(get_db)):
+    products = db.query(Product).all()
+    return JSONResponse(content={
+        "products": [
+            {
+                "id": p.id,
+                "name": p.name,
+                "category_id": p.category_id,
+            } for p in products
+        ]
+    }, status_code=200)
+
+
 
 
 
