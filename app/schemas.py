@@ -81,9 +81,10 @@ class DeliveryCreate(BaseModel):
 
 class DeliveryUpdate(BaseModel):
     product_id: Optional[int] = None
-    supplier_id: Optional[int] = None
-    quantity_delivered: Optional[int] = None
-    delivery_date: Optional[str] = None
+    structure_name: Optional[str] = None
+    delivery_date: Optional[datetime] = None
+    quantity: Optional[int] = None
+    amount_paid: Optional[float] = None
 
 class DeliveryResponse(DeliveryCreate):  # ✅ Définir DeliveryResponse avant ProductResponse
     id: int

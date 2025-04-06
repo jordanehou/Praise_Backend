@@ -132,7 +132,7 @@ def update_delivery(delivery_id: int, delivery_data: DeliveryUpdate, db: Session
 
     return JSONResponse(
     content={"message": "Delivery updated successfully", "delivery": jsonable_encoder(delivery)},
-    status_code=201
+    status_code=200
 )
 
 @router.delete("/delete/{delivery_id}")
